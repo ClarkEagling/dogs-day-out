@@ -11,14 +11,17 @@ scene.onOverlapTile(SpriteKind.Player, assets.tile`tile2`, function (sprite, loc
 sprites.onOverlap(SpriteKind.Player, SpriteKind.Enemy, function (sprite, otherSprite) {
     otherSprite.destroy()
     if (sprite.bottom < otherSprite.y) {
-        music.smallCrash.play()
         sprite.vy = -230
+        music.baDing.play()
+        info.changeScoreBy(5)
     } else {
         info.changeLifeBy(-1)
+        music.zapped.play()
     }
 })
 let myEnemy: Sprite = null
 let mySprite: Sprite = null
+game.splash("let's make a high score from jumping on enemies game where touching the ground is game over")
 scene.setBackgroundColor(11)
 scene.setBackgroundImage(img`
     9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
@@ -184,6 +187,6 @@ for (let value of tiles.getTilesByType(assets.tile`tile5`)) {
         . . . . . . . . b b . b b . . . 
         `, SpriteKind.Enemy)
     tiles.placeOnTile(myEnemy, value)
-    myEnemy.follow(mySprite, 30)
+    myEnemy.follow(mySprite, randint(5, 20))
     myEnemy.ay = 500
 }
